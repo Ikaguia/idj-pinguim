@@ -21,6 +21,7 @@ void Sprite::open(std::string file){
 		std::cout << "Erro ao carregar as dimensões da textura \"" << file << "\", o programa ira encerrar agora" << std::endl;
 		exit(EXIT_FAILURE);
 	}
+	setClip(SDL_WINDOWPOS_CENTERED-(width/2),SDL_WINDOWPOS_CENTERED-(height/2),width,height);
 }
 void Sprite::setClip(int x,int y,int w,int h){
 	clipRect.x=x;
@@ -28,13 +29,15 @@ void Sprite::setClip(int x,int y,int w,int h){
 	clipRect.w=w;
 	clipRect.h=h;
 }
+
 void Sprite::render(int x,int y){
 	SDL_Rect dest;
 	dest.x=x;
 	dest.y=y;
 	dest.w=getWidth();
 	dest.h=getHeight();
-	SDL_RenderCopy(Game::getInstance().getRenderer(),texture,&clipRect,&dest);
+	//SDL_RenderCopy(Game::getInstance().getRenderer(),texture,&clipRect,&dest);
+	SDL_RenderCopy(Game::getInstance().getRenderer(),texture,NULL,NULL);
 }
 
 int Sprite::getWidth(){
