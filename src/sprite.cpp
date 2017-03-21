@@ -21,6 +21,7 @@ void Sprite::open(std::string file){
 		std::cout << "Erro ao carregar as dimensões da textura \"" << file << "\", o programa ira encerrar agora" << std::endl;
 		exit(EXIT_FAILURE);
 	}
+	setClip(0,0,width,height);
 }
 void Sprite::setClip(int x,int y,int w,int h){
 	clipRect.x=x;
@@ -28,6 +29,7 @@ void Sprite::setClip(int x,int y,int w,int h){
 	clipRect.w=w;
 	clipRect.h=h;
 }
+
 void Sprite::render(int x,int y){
 	SDL_Rect dest;
 	dest.x=x;

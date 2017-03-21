@@ -1,10 +1,12 @@
 #ifndef GAMEHPP
 #define GAMEHPP
 
-#include <SDL.h>
-#include <SDL_image.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #include <string>
 #include <iostream>
+#include <cstdlib>
+#include <ctime>
 
 class State;
 
@@ -15,7 +17,7 @@ class Game{
 	State* state;
 	
 public:
-	Game(std::string title,int height,int width);
+	Game(std::string title,int width,int height);
 	~Game();
 
 	void run();
