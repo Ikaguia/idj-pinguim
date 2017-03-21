@@ -1,14 +1,17 @@
 #ifndef STATEHPP
 #define STATEHPP
 
-#include <SDL.h>
-#include <SDL_image.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #include <sprite.hpp>
+#include <vector>
+#include <memory>
 
 
 class State{
 	Sprite bg;
 	bool quitRequested;
+
 public:
 	State();
 
