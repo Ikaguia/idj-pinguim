@@ -3,20 +3,25 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+
+#include <common.hpp>
 #include <sprite.hpp>
 #include <gameObject.hpp>
 #include <face.hpp>
-#include <vector>
-#include <memory>
+#include <tileSet.hpp>
+#include <tileMap.hpp>
 
 
 class State{
 	Sprite bg;
 	bool quitRequested;
-	std::vector<std::unique_ptr<GameObject>> objectArray;
+	vector<unique_ptr<GameObject>> objectArray;
 
 	void input();
 	void addObject(float mouseX,float mouseY);
+
+	TileSet tileSet;
+	TileMap tileMap;
 public:
 	State();
 	~State();

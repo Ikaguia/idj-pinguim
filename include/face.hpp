@@ -1,7 +1,7 @@
 #ifndef FACEHPP
 #define FACEHPP
 
-
+#include <common.hpp>
 #include <gameObject.hpp>
 #include <sprite.hpp>
 

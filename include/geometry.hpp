@@ -1,8 +1,9 @@
 #ifndef GEOMETRYHPP
 #define GEOMETRYHPP
 
-
 #include <cmath>
+
+#include <common.hpp>
 
 #define PI 3.141592653589793
 #define RAD(x)     (((x)*PI)/180.0)

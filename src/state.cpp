@@ -1,7 +1,7 @@
 #include <state.hpp>
 
 
-State::State():quitRequested{false},bg{Sprite("../resources/img/ocean.jpg")}{
+State::State():quitRequested{false},bg{Sprite("../resources/img/ocean.jpg")},tileSet{TileSet(64,64,"../resources/img/tileset.png")},tileMap{TileMap("../resources/map/tileMap.txt",&tileSet)}{
 	loadAssets();
 }
 
@@ -21,7 +21,8 @@ void State::input() {
 		// Se o evento for clique...
 		else if(event.type == SDL_MOUSEBUTTONDOWN) {
 			// Percorrer de trás pra frente pra sempre clicar no objeto mais de cima
-			for(int i = objectArray.size() - 1; i >= 0; --i) {
+			//for(int i = objectArray.size() - 1; i >= 0; --i) {
+			FORR(i,objectArray.size()){
 				// Obtem o ponteiro e casta pra Face.
 				Face* face = (Face*) objectArray[i].get();
 				// Nota: Desencapsular o ponteiro é algo que devemos evitar ao máximo.
@@ -50,9 +51,9 @@ void State::input() {
 void State::addObject(float mouseX,float mouseY){
 	Vec2 v(200,0);
 	int ri=rand()%36000;
-	float rf=ri/100.0;
+	float rf=ri/100.0f;
 	v = v.rotate(rf);
-	objectArray.emplace_back(std::unique_ptr<GameObject>(new Face(v.x+mouseX,v.y+mouseY)));
+	objectArray.emplace_back(unique_ptr<GameObject>(new Face(v.x+mouseX,v.y+mouseY)));
 }
 
 bool State::QuitRequested(){
@@ -62,7 +63,9 @@ bool State::QuitRequested(){
 void State::loadAssets(){}
 void State::render(){
 	bg.render(0,0);
+	tileMap.renderLayer(0,0,0);
 	for(const auto &i:objectArray)i->render();
+	tileMap.renderLayer(1,0,0);
 }
 void State::update(){
 	input();

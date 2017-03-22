@@ -3,12 +3,15 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include <string>
-#include <iostream>
+
 #include <cstdlib>
 #include <ctime>
 
+#include <common.hpp>
+
+#ifndef STATEHPP
 class State;
+#endif//STATEHPP
 
 class Game{
 	static Game* instance;
@@ -17,7 +20,7 @@ class Game{
 	State* state;
 	
 public:
-	Game(std::string title,int width,int height);
+	Game(string title,int width,int height);
 	~Game();
 
 	void run();
@@ -25,7 +28,5 @@ public:
 	State& getState();
 	static Game& getInstance();
 };
-
-#include <state.hpp>
 
 #endif//GAMEHPP

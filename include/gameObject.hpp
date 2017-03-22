@@ -1,6 +1,7 @@
 #ifndef GAMEOBJECTHPP
 #define GAMEOBJECTHPP
 
+#include <common.hpp>
 #include <geometry.hpp>
 
 class GameObject{
