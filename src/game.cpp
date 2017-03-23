@@ -1,10 +1,11 @@
 #include <game.hpp>
 #include <state.hpp>
+#include <inputManager.hpp>
 
 Game* Game::instance=NULL;
 
 
-Game::Game(string title,int width,int height){
+Game::Game(string title,int width,int height):frameStart{0},dt{0}{
 	srand(time(NULL));
 	if(instance){
 		cout << "Erro, mais de uma instancia de 'Game' instanciada, o programa ira encerrar agora" << endl;
@@ -63,9 +64,23 @@ SDL_Renderer* Game::getRenderer(){
 
 void Game::run(){
 	while(!(state->QuitRequested())){
+		calculateDeltaTime();
+		INPUTMAN.Update();
 		state->update();
 		state->render();
 		SDL_RenderPresent(renderer);
 		SDL_Delay(33);
 	}
+}
+
+float Game::GetDeltaTime(){
+	return dt;
+}
+
+
+
+void Game::calculateDeltaTime(){
+	int time = SDL_GetTicks();
+	dt = (time - (frameStart))/1000.0f;
+	frameStart = time;
 }

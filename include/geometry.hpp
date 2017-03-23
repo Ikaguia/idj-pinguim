@@ -23,10 +23,10 @@ public:
 	void operator+=(const Vec2& b);
 	Vec2 operator- (const Vec2& b)const;
 	void operator-=(const Vec2& b);
-	Vec2 operator* (const int& r)const;
-	void operator*=(const int& r);
-	Vec2 operator/ (const int& r)const;
-	void operator/=(const int& r);
+	Vec2 operator* (const float& r)const;
+	void operator*=(const float& r);
+	Vec2 operator/ (const float& r)const;
+	void operator/=(const float& r);
 
 	float len() const;//magnitude do vetor
 	float angle() const;//angulo entre this e o eixo x
@@ -62,6 +62,17 @@ public:
 
 	bool contains(const float &i,const float &j) const;//retorna se o ponto pertence ao retangulo
 	bool contains(const Vec2& b) const;//retorna se o ponto pertence ao retangulo
+};
+
+class Circle{
+public:
+	float x;
+	float y;
+	float r;
+	Circle(float x=0,float y=0,float r=1);
+
+	bool contains(const Vec2 &p)const;//retorna se o ponto pertence ào circulo
+	bool contains(const float &x,const float &y)const;//retorna se o ponto pertence ào circulo
 };
 
 #endif//GEOMETRYHPP

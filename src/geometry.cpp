@@ -26,18 +26,18 @@ void Vec2::operator-=(const Vec2& b){
 	y-=b.y;
 }
 
-Vec2 Vec2::operator* (const int& r)const{
+Vec2 Vec2::operator* (const float& r)const{
 	return Vec2(x*r,y*r);
 }
-void Vec2::operator*=(const int& r){
+void Vec2::operator*=(const float& r){
 	x*=r;
 	y*=r;
 }
 
-Vec2 Vec2::operator/ (const int& r)const{
+Vec2 Vec2::operator/ (const float& r)const{
 	return Vec2(x/r,y/r);
 }
-void Vec2::operator/=(const int& r){
+void Vec2::operator/=(const float& r){
 	x/=r;
 	y/=r;
 }
@@ -137,4 +137,19 @@ bool Rect::contains(const Vec2& b) const{
 	if(b.y<y)return false;
 	if(b.y>y+h)return false;
 	return true;
+}
+
+
+
+
+Circle::Circle(float xx,float yy,float rr):x{xx},y{yy},r{rr}{}
+
+bool Circle::contains(const Vec2 &p)const{
+	Vec2 center(x,y);
+	return (center-p).len()<=r;
+}
+bool Circle::contains(const float &px,const float &py)const{
+	Vec2 center(x,y);
+	Vec2 p(px,py);
+	return (center-p).len()<=r;
 }

@@ -7,22 +7,22 @@
 #include <common.hpp>
 #include <sprite.hpp>
 #include <gameObject.hpp>
-#include <face.hpp>
 #include <tileSet.hpp>
 #include <tileMap.hpp>
 
 
 class State{
 	Sprite bg;
-	bool quitRequested;
 	vector<unique_ptr<GameObject>> objectArray;
 
-	void input();
+	bool quitRequested;
+
 	void addObject(float mouseX,float mouseY);
 
 	TileSet tileSet;
 	TileMap tileMap;
 public:
+
 	State();
 	~State();
 
