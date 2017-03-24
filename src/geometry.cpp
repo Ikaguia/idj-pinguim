@@ -48,7 +48,8 @@ float Vec2::len() const{
 }
 
 float Vec2::angle() const{
-	return atan(y / x) + (x < 0 ? PI : 0);
+	float f = DEGREES(atan(y / x) + (x < 0 ? PI : 0));
+	return ((f<0)?(360+f):(f));
 }
 
 
@@ -62,8 +63,7 @@ float Vec2::angle(const Vec2 &b) const{
 
 
 Vec2 Vec2::unit() const{
-	float l=len();
-	return Vec2(x/l,y/l);
+	return (*this)/len();
 }
 
 

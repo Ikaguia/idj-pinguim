@@ -14,11 +14,11 @@ ODIR=obj
 OUTNAME=pinguim
 
 
-_DEPS = game.hpp state.hpp sprite.hpp geometry.hpp gameObject.hpp face.hpp tileSet.hpp tileMap.hpp common.hpp resources.hpp inputManager.hpp camera.hpp
+_DEPS = game.hpp state.hpp sprite.hpp geometry.hpp gameObject.hpp tileSet.hpp tileMap.hpp common.hpp resources.hpp inputManager.hpp camera.hpp alien.hpp minion.hpp bullet.hpp
 #SDL.h SDL_image.h
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
-_OBJ = main.o game.o state.o sprite.o geometry.o face.o tileSet.o tileMap.o resources.o inputManager.o camera.o
+_OBJ = main.o game.o state.o sprite.o geometry.o gameObject.o tileSet.o tileMap.o resources.o inputManager.o camera.o alien.o minion.o bullet.o
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))	
 
 

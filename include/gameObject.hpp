@@ -7,12 +7,14 @@
 class GameObject{
 public:
 	Rect box;
+	float rotation;
 
+	GameObject();
 	virtual ~GameObject(){}
 
-	virtual void update(float time)=0;
-	virtual void render()=0;
-	virtual bool isDead()=0;
+	virtual void Update(float time)=0;
+	virtual void Render()=0;
+	virtual bool IsDead()=0;
 };
 
 #endif//GAMEOBJECTHPP
