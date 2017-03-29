@@ -13,6 +13,10 @@
 class State;
 #endif//STATEHPP
 
+#define GAMEINST Game::getInstance()
+#define GAMESTATE GAMEINST.getState()
+#define GAMERENDER GAMEINST.getRenderer()
+
 class Game{
 	static Game* instance;
 	SDL_Window* window;

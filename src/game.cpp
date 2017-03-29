@@ -43,6 +43,7 @@ Game::Game(string title,int width,int height):frameStart{0},dt{0}{
 };
 
 Game::~Game(){
+	delete state;
 	SDL_DestroyRenderer(renderer);
 	IMG_Quit();
 	SDL_DestroyWindow(window);

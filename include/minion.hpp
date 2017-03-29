@@ -12,11 +12,15 @@ class Minion : public GameObject{
 	float arc;
 public:
 	Minion(GameObject* c,float arcOffset=0);
+	~Minion();
 
 	void Update(float time);
 	void Render();
 	bool IsDead();
 	void Shoot(Vec2 pos);
+
+	virtual void NotifyCollision(GameObject& other);
+	virtual bool Is(string type);
 };
 
 #endif//MINIONHPP

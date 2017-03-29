@@ -14,17 +14,27 @@ class Sprite{
 	SDL_Rect clipRect;
 	float scaleX;
 	float scaleY;
+
+	int frameCount;
+	int currentFrame;
+	float timeElapsed;
+	float frameTime;
 public:
 	Sprite();
-	Sprite(string file);
+	Sprite(string file,int fCount=1,float fTime=1.0f);
 	~Sprite();
 
-	void open(string file);
-	void setClip(int x,int y,int w,int h);
+	void Open(string file,int fCount=1,float fTime=1.0f);
+	void SetClip(int x,int y,int w,int h);
 	void render(int x,int y,float angle=0.0f);
 
-	int getWidth();
-	int getHeight();
+	void Update(float time);
+	void SetFrame(int frame);
+	void SetFrameCount(int fCount);
+	void SetFrameTime(float fTime);
+
+	int GetWidth();
+	int GetHeight();
 
 	bool isOpen();
 
