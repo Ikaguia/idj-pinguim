@@ -5,8 +5,9 @@ unordered_map<string,SDL_Texture*> Resources::imageTable;
 
 
 SDL_Texture* Resources::getImage(string file){
+	//cout << "resouces " << file << endl;
 	if(imageTable.count(file))return imageTable[file];
-	SDL_Texture* texture = IMG_LoadTexture(Game::getInstance().getRenderer(),file.c_str());
+	SDL_Texture* texture = IMG_LoadTexture(GAMERENDER,file.c_str());
 	if(!texture){
 		cout << "Erro ao carregar textura \"" << file << "\":" << endl;
 		string s=SDL_GetError();
