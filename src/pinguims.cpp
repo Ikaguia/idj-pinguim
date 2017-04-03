@@ -14,7 +14,7 @@ Pinguims* Pinguims::player=nullptr;
 #define ANGSPD (95.0f)
 #define SHOOT_COOLDOWN (0.25f)
 
-Pinguims::Pinguims(float x,float y):bodySp{"img/penguin.png"},canonSp{"img/cubngun.png"},speed{1,0},linearSpeed{0.0f},canonAngle{0.0f},hp{30}{
+Pinguims::Pinguims(float x,float y):bodySp{RESOURCESFOLDER+"img/penguin.png"},canonSp{RESOURCESFOLDER+"img/cubngun.png"},speed{Vec2(1,0)},linearSpeed{0.0f},canonAngle{0.0f},hp{30}{
 	box.x=x-bodySp.GetWidth()/2;
 	box.y=y-bodySp.GetHeight()/2;
 	box.w=bodySp.GetWidth();
@@ -28,9 +28,20 @@ Pinguims::~Pinguims(){
 
 void Pinguims::Update(float time){
 	t.Update(time);
-	box+=(speed*linearSpeed*time);
-	Vec2 mouse(INPUTMAN.GetMouseX()+Camera::pos.x,INPUTMAN.GetMouseY()+Camera::pos.y);
-	canonAngle=(mouse-box.center()).angle();
+	{//move box
+		Rect movedBox=box+(speed*linearSpeed*time);
+		if(movedBox.x>=0 && movedBox.x<1408 && movedBox.y>=0 && movedBox.y<1280)box=movedBox;
+		else{
+			rotation+=180;
+			speed*=-1;
+			linearSpeed*=0.5f;
+			box+=(speed*linearSpeed*time);
+		}
+	}
+	{//canon angle
+		Vec2 mouse(INPUTMAN.GetMouseX()+Camera::pos.x,INPUTMAN.GetMouseY()+Camera::pos.y);
+		canonAngle=(mouse-box.center()).angle();
+	}
 	if(INPUTMAN.IsKeyDown(W_KEY) && !INPUTMAN.IsKeyDown(S_KEY))linearSpeed=std::min(linearSpeed+(ACEL*time),MAXSDP);
 	if(INPUTMAN.IsKeyDown(S_KEY) && !INPUTMAN.IsKeyDown(W_KEY))linearSpeed=std::max(linearSpeed-(ACEL*time),MINSPD);
 	if(INPUTMAN.IsKeyDown(D_KEY) && !INPUTMAN.IsKeyDown(A_KEY)){
@@ -45,8 +56,8 @@ void Pinguims::Update(float time){
 	if(INPUTMAN.MousePress(LEFT_MOUSE_BUTTON))Shoot();
 }
 void Pinguims::Render(){
-	bodySp.render(box.x-Camera::pos.x,box.y-Camera::pos.y,rotation);
-	canonSp.render(box.x-Camera::pos.x-(canonSp.GetWidth()-bodySp.GetWidth()),box.y-Camera::pos.y+(bodySp.GetHeight()-canonSp.GetHeight()),canonAngle);
+	bodySp.Render(box.x-Camera::pos.x,box.y-Camera::pos.y,rotation);
+	canonSp.Render(box.x-Camera::pos.x-(canonSp.GetWidth()-bodySp.GetWidth()),box.y-Camera::pos.y+(bodySp.GetHeight()-canonSp.GetHeight()),canonAngle);
 }
 bool Pinguims::IsDead(){
 	return hp<=0;
@@ -55,14 +66,17 @@ bool Pinguims::IsDead(){
 void Pinguims::Shoot(){
 	if(t.Get()>=SHOOT_COOLDOWN){
 		Vec2 c = box.center()+(Vec2(box.w/2,0).rotate(canonAngle));
-		GAMESTATE.AddObject(new Bullet(c.x,c.y,canonAngle,500,750,"img/penguinbullet.png",4,0.375,this));
+		GAMESTATE.AddObject(new Bullet(c.x,c.y,canonAngle,500,750,RESOURCESFOLDER+"img/penguinbullet.png",4,0.375,this));
 		t.Restart();
 	}
 }
 
 void Pinguims::Damage(int dmg){
 	hp-=dmg;
-	if(IsDead())GAMESTATE.AddObject(new Animation(box.x,box.y,rotation,"img/penguindeath.png",5,0.2f,true));
+	if(IsDead()){
+		GAMESTATE.AddObject(new Animation(box.x,box.y,rotation,RESOURCESFOLDER+"img/penguindeath.png",5,0.2f,true));
+		GAMESTATE.AddSound(RESOURCESFOLDER+"audio/boom.wav",0);
+	}
 }
 
 

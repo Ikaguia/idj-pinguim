@@ -16,7 +16,7 @@ void Bullet::Update(float time){
 }
 
 void Bullet::Render(){
-	sp.render(box.x-Camera::pos.x,box.y-Camera::pos.y,angle);
+	sp.Render(box.x-Camera::pos.x,box.y-Camera::pos.y,angle);
 }
 
 bool Bullet::IsDead(){

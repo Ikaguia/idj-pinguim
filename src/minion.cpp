@@ -9,7 +9,7 @@
 #define DIST 150
 #define ANGSPEED 45.0f //45 graus
 
-Minion::Minion(GameObject* c,float arcOffset):center{c},sp{"img/minion.png"},arc{arcOffset}{
+Minion::Minion(GameObject* c,float arcOffset):center{c},sp{RESOURCESFOLDER+"img/minion.png"},arc{arcOffset}{
 	float r=(10+rand()%5)/10.0f;
 	sp.SetScaleX(r);
 	sp.SetScaleY(r);
@@ -32,14 +32,14 @@ void Minion::Update(float time){
 }
 
 void Minion::Render(){
-	sp.render(box.x-Camera::pos.x,box.y-Camera::pos.y,90.0f+arc);
+	sp.Render(box.x-Camera::pos.x,box.y-Camera::pos.y,90.0f+arc);
 }
 bool Minion::IsDead(){
 	return false;
 }
 void Minion::Shoot(Vec2 pos){
 	Vec2 c=box.center();
-	GAMESTATE.AddObject(new Bullet(c.x,c.y,c.angle(pos),500,1500,"img/minionbullet2.png",3,1.0f,this));
+	GAMESTATE.AddObject(new Bullet(c.x,c.y,c.angle(pos),500,1500,RESOURCESFOLDER+"img/minionbullet2.png",3,1.0f,this));
 }
 
 

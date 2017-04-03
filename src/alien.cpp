@@ -12,7 +12,7 @@
 
 int Alien::count=0;
 
-Alien::Alien(float x,float y,int nMinions):sp{"img/alien.png"},state{alienState::RESTING}{
+Alien::Alien(float x,float y,int nMinions):sp{Sprite(RESOURCESFOLDER+"img/alien.png")},state{alienState::RESTING}{
 	count++;
 
 	hp=30;
@@ -25,6 +25,8 @@ Alien::Alien(float x,float y,int nMinions):sp{"img/alien.png"},state{alienState:
 	FOR(i,nMinions){
 		minionArray.emplace_back(this,ang*i);
 	}
+
+	restTimer.Update(-2.0f/count);
 }
 Alien::~Alien(){
 	count--;
@@ -38,7 +40,7 @@ void Alien::Update(float time){
 	rotation-=(10.0f*time);
 	if(Pinguims::player){
 		if(state==alienState::RESTING){
-			restTimer.Update(time);
+			restTimer.Update(time/(float)(1.0f+(rand()%5)));
 			if(restTimer.Get()>REST_COOLDOWN){
 				destination=Pinguims::player->box.center();
 				speed=((destination-box.center()).unit())*MOVE_SPEED;
@@ -49,8 +51,7 @@ void Alien::Update(float time){
 			if(box.center().dist(destination)<=MOVE_SPEED){
 				box.x=destination.x-(box.w/2);
 				box.y=destination.y-(box.h/2);
-				//shoot
-				{
+				{//shoot
 					int closest=0;
 					Vec2 dest = Pinguims::player->box.center();
 					float min=dest.dist(minionArray[0].box.center());
@@ -72,7 +73,7 @@ void Alien::Update(float time){
 	for(auto &i:minionArray)i.Update(time);
 }
 void Alien::Render(){
-	sp.render(box.x-Camera::pos.x,box.y-Camera::pos.y,rotation);
+	sp.Render(box.x-Camera::pos.x,box.y-Camera::pos.y,rotation);
 	for(auto &i:minionArray)i.Render();
 }
 bool Alien::IsDead(){
@@ -81,10 +82,11 @@ bool Alien::IsDead(){
 void Alien::Damage(int dmg){
 	hp-=dmg;
 	if(IsDead()){
-		GAMESTATE.AddObject(new Animation(box.x,box.y,rotation,"img/aliendeath.png",4,0.25f,true));
+		GAMESTATE.AddObject(new Animation(box.x,box.y,rotation,RESOURCESFOLDER+"img/aliendeath.png",4,0.25f,true));
 		for(auto &i:minionArray){
-			GAMESTATE.AddObject(new Animation(i.box.x,i.box.y,i.rotation,"img/miniondeath.png",4,0.25f,true));
+			GAMESTATE.AddObject(new Animation(i.box.x,i.box.y,i.rotation,RESOURCESFOLDER+"img/miniondeath.png",4,0.25f,true));
 		}
+		GAMESTATE.AddSound(RESOURCESFOLDER+"audio/boom.wav",0);
 	}
 }
 
