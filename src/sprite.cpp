@@ -1,24 +1,17 @@
 #include <sprite.hpp>
+#include <game.hpp>
+#include <resources.hpp>
 
 Sprite::Sprite():texture{NULL}{}
-Sprite::Sprite(std::string file):texture{NULL}{
+Sprite::Sprite(string file):texture{NULL}{
 	open(file);
 }
-Sprite::~Sprite(){
-	if(texture)SDL_DestroyTexture(texture);
-}
+Sprite::~Sprite(){}
 
-void Sprite::open(std::string file){
-	if(texture)SDL_DestroyTexture(texture);
-	texture = IMG_LoadTexture(Game::getInstance().getRenderer(),file.c_str());
-	if(!texture){
-		std::cout << "Erro ao carregar textura \"" << file << "\":" << std::endl;
-		std::string s=SDL_GetError();
-		std::cout << s << std::endl << "o programa ira encerrar agora" << std::endl;
-		exit(EXIT_FAILURE);
-	}
+void Sprite::open(string file){
+	texture = Resources::getImage(file);
 	if(SDL_QueryTexture(texture,NULL,NULL,&width,&height)){
-		std::cout << "Erro ao carregar as dimensões da textura \"" << file << "\", o programa ira encerrar agora" << std::endl;
+		cout << "Erro ao carregar as dimensões da textura \"" << file << "\", o programa ira encerrar agora" << endl;
 		exit(EXIT_FAILURE);
 	}
 	setClip(0,0,width,height);

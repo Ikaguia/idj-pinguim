@@ -3,8 +3,8 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include <string>
-#include <iostream>
+
+#include <common.hpp>
 
 
 class Sprite{
@@ -14,10 +14,10 @@ class Sprite{
 	SDL_Rect clipRect;
 public:
 	Sprite();
-	Sprite(std::string file);
+	Sprite(string file);
 	~Sprite();
 
-	void open(std::string file);
+	void open(string file);
 	void setClip(int x,int y,int w,int h);
 	void render(int x,int y);
 
@@ -26,9 +26,5 @@ public:
 
 	bool isOpen();
 };
-
-
-
-#include <game.hpp>
 
 #endif//SPRITEHPP
