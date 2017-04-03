@@ -1,7 +1,7 @@
 #include <resources.hpp>
 #include <game.hpp>
 
-std::unordered_map<string,SDL_Texture*> Resources::imageTable;
+unordered_map<string,SDL_Texture*> Resources::imageTable;
 
 
 SDL_Texture* Resources::getImage(string file){
