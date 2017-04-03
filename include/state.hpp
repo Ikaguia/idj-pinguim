@@ -17,8 +17,6 @@ class State{
 
 	bool quitRequested;
 
-	void addObject(float mouseX,float mouseY);
-
 	TileSet tileSet;
 	TileMap tileMap;
 public:
@@ -31,6 +29,7 @@ public:
 	void loadAssets();
 	void update();
 	void render();
+	void AddObject(GameObject* obj);
 };
 
 #endif//STATEHPP

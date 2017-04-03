@@ -12,6 +12,8 @@ class Sprite{
 	int width;
 	int height;
 	SDL_Rect clipRect;
+	float scaleX;
+	float scaleY;
 public:
 	Sprite();
 	Sprite(string file);
@@ -19,12 +21,15 @@ public:
 
 	void open(string file);
 	void setClip(int x,int y,int w,int h);
-	void render(int x,int y);
+	void render(int x,int y,float angle=0.0f);
 
 	int getWidth();
 	int getHeight();
 
 	bool isOpen();
+
+	void SetScaleX(float scale);
+	void SetScaleY(float scale);
 };
 
 #endif//SPRITEHPP

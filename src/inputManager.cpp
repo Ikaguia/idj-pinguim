@@ -8,27 +8,31 @@ void InputManager::Update(){
 	quitRequested=false;
 
 	SDL_Event event;
-	while(SDL_PollEvent(&event)){	
+	while(SDL_PollEvent(&event)){
 		if(event.type==SDL_QUIT)quitRequested=true;
 		else if(event.type==SDL_MOUSEBUTTONDOWN){
-			if(mouseState[event.button.button]!=true){
+			//cout << "mouse button down " << (int)event.button.button << endl;
+			if(event.button.button>=0 && event.button.button<6 && mouseState[event.button.button]!=true){
 				mouseUpdate[event.button.button]=updateCounter;
 				mouseState[event.button.button]=true;
 			}
 		}
 		else if(event.type==SDL_MOUSEBUTTONUP){
-			if(mouseState[event.button.button]!=false){
+			//cout << "mouse button up " << (int)event.button.button << endl;
+			if(event.button.button>=0 && event.button.button<6 && mouseState[event.button.button]!=false){
 				mouseUpdate[event.button.button]=updateCounter;
 				mouseState[event.button.button]=false;
 			}
 		}
 		else if(event.type==SDL_KEYDOWN){
+			//cout << "key down" << endl;
 			if(!event.key.repeat){
 				keyState[event.key.keysym.sym]=true;
 				keyUpdate[event.key.keysym.sym]=updateCounter;
 			}
 		}
 		else if(event.type==SDL_KEYUP){
+			//cout << "key up" << endl;
 			keyState[event.key.keysym.sym]=false;
 			keyUpdate[event.key.keysym.sym]=updateCounter;
 		}
