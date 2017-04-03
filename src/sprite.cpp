@@ -1,75 +1,51 @@
 #include <sprite.hpp>
-#include <game.hpp>
-#include <resources.hpp>
 
-Sprite::Sprite():texture{nullptr},scaleX{1.0f},scaleY{1.0f},timeElapsed{0.0f}{}
-Sprite::Sprite(string file,int fCount,float fTime):texture{nullptr},scaleX{1.0f},scaleY{1.0f},timeElapsed{0.0f}{
-	Open(file,fCount,fTime);
+Sprite::Sprite():texture{NULL}{}
+Sprite::Sprite(std::string file):texture{NULL}{
+	open(file);
 }
-Sprite::~Sprite(){}
+Sprite::~Sprite(){
+	if(texture)SDL_DestroyTexture(texture);
+}
 
-void Sprite::Open(string file,int fCount,float fTime){
-	texture = Resources::getImage(file);
-	if(SDL_QueryTexture(texture,nullptr,nullptr,&width,&height)){
-		cout << "Erro ao carregar as dimensões da textura \"" << file << "\", o programa ira encerrar agora" << endl;
+void Sprite::open(std::string file){
+	if(texture)SDL_DestroyTexture(texture);
+	texture = IMG_LoadTexture(Game::getInstance().getRenderer(),file.c_str());
+	if(!texture){
+		std::cout << "Erro ao carregar textura \"" << file << "\":" << std::endl;
+		std::string s=SDL_GetError();
+		std::cout << s << std::endl << "o programa ira encerrar agora" << std::endl;
 		exit(EXIT_FAILURE);
 	}
-
-	SetFrameCount(fCount);
-	SetFrameTime(fTime);
-	SetFrame(0);
+	if(SDL_QueryTexture(texture,NULL,NULL,&width,&height)){
+		std::cout << "Erro ao carregar as dimensões da textura \"" << file << "\", o programa ira encerrar agora" << std::endl;
+		exit(EXIT_FAILURE);
+	}
+	setClip(0,0,width,height);
 }
-void Sprite::SetClip(int x,int y,int w,int h){
+void Sprite::setClip(int x,int y,int w,int h){
 	clipRect.x=x;
 	clipRect.y=y;
 	clipRect.w=w;
 	clipRect.h=h;
 }
 
-void Sprite::render(int x,int y,float angle){
+void Sprite::render(int x,int y){
 	SDL_Rect dest;
 	dest.x=x;
 	dest.y=y;
-	dest.w=clipRect.w;
-	dest.h=clipRect.h;
-	//cout << "rendering with size " << dest.w << "," << dest.h << " fCount = " << frameCount << endl;
-	//SDL_RenderCopyEx(GAMERENDER,texture,nullptr,nullptr,angle,nullptr,SDL_FLIP_NONE);
-	SDL_RenderCopyEx(GAMERENDER,texture,&clipRect,&dest,angle,nullptr,SDL_FLIP_NONE);
+	dest.w=getWidth();
+	dest.h=getHeight();
+	SDL_RenderCopy(Game::getInstance().getRenderer(),texture,&clipRect,&dest);
 }
 
-void Sprite::Update(float time){
-	if(frameCount==1)return;
-	timeElapsed+=time;
-	if(timeElapsed>frameTime){
-		timeElapsed-=frameTime;
-		SetFrame((currentFrame+1)%frameCount);
-	}
+int Sprite::getWidth(){
+	return clipRect.w;
 }
-void Sprite::SetFrame(int frame){
-	currentFrame = frame;
-	SetClip(frame*GetWidth(),0,GetWidth(),GetHeight());
-}
-void Sprite::SetFrameCount(int fCount){
-	frameCount=fCount;
-}
-void Sprite::SetFrameTime(float fTime){
-	frameTime=fTime;
-}
-
-int Sprite::GetWidth(){
-	return (width*scaleX)/frameCount;
-}
-int Sprite::GetHeight(){
-	return (height*scaleY);
+int Sprite::getHeight(){
+	return clipRect.h;
 }
 
 bool Sprite::isOpen(){
-	return (texture!=nullptr);
-}
-
-void Sprite::SetScaleX(float scale){
-	scaleX=scale;
-}
-void Sprite::SetScaleY(float scale){
-	scaleY=scale;
+	return (texture!=NULL);
 }
